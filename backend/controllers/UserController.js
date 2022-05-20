@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const bcrypt = require('bcrypt')
+const createUserToken = require('../helpers/create-user-token')
 
 module.exports = class UserController {
 
@@ -44,6 +46,29 @@ module.exports = class UserController {
         if(userExists){
             res.status(422).json({ message: 'E-mail já utilizado! Por favor escolha outro e-mail.' })
             return 
+        }
+
+        //Create a password
+        const salt = await bcrypt.genSalt(12)
+        const passwordHash = await bcrypt.hash(password, salt)
+
+        //Create a user
+        const user = new User({
+            name,
+            email,
+            phone,
+            password: passwordHash,
+        })
+
+        try {
+
+            const newUser = await user.save()
+            await createUserToken(newUser, req, res)
+  
+        } catch (error) {
+
+            res.status(500).json({ message:error })
+
         }
     }
 }
