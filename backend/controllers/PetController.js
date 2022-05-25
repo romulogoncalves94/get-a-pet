@@ -11,6 +11,8 @@ module.exports = class PetController{
         
         const {name, age, weight, color} = req.body
 
+        const images = req.files
+
         const available = true
 
         //Images upload
@@ -36,6 +38,11 @@ module.exports = class PetController{
             return
         }
 
+        if(images.length === 0){
+            res.status(422).json({ message: 'O campo imagens é obrigatório!' })
+            return
+        }
+
         //Get pet owner
         const token = getToken(req)
         const user = await getUserByToken(token)
@@ -47,13 +54,17 @@ module.exports = class PetController{
             weight,
             color,
             available,
-            image: [],
+            images: [],
             user: {
                 _id: user._id,
                 name: user.name,
                 image: user.image,
                 phone: user.phone,
             },
+        })
+
+        images.map((image) => {
+            pet.images.push(image.filename)
         })
 
         try {
@@ -65,5 +76,37 @@ module.exports = class PetController{
             
             res.status(500).json({ message: error})
         }
+    }
+
+    static async getAll(req, res){
+
+        const pets = await Pet.find().sort('-createAt')
+
+        res.status(200).json({ pets: pets,})
+
+    }
+
+    static async getAllUserPets(req, res){
+
+        //Get user from token
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        const pets = await Pet.find({'user._id' : user._id}).sort('createAt')
+
+        res.status(200).json({pets,})
+
+    }
+
+    static async getAllUserAdoptions(req, res){
+
+        //Get user from token
+        const token = getToken(req)
+        const user = await getUserByToken(token)
+
+        const pets = await Pet.find({'adopter._id' : user._id}).sort('createAt')
+
+        res.status(200).json({pets,})
+
     }
 }
