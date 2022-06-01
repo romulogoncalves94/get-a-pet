@@ -24,15 +24,15 @@ module.exports = class UserController {
             res.status(422).json({ message: 'O campo nome é obrigatório!' })
             return
         }
-        if(!email){
-            res.status(422).json({ message: 'O campo e-mail é obrigatório!' })
-            return
-        }
         if(!phone){
             res.status(422).json({ message: 'O campo telefone é obrigatório!' })
             return
         }
-        if(!password){
+        if(!email){
+            res.status(422).json({ message: 'O campo e-mail é obrigatório!' })
+            return
+        }
+                if(!password){
             res.status(422).json({ message: 'O campo senha é obrigatório!' })
             return
         }
