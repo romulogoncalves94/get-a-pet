@@ -15,7 +15,7 @@ function Register(){
         setUser({...user, [e.target.name]: e.target.value})
     }
 
-    function hadleSubmit(e){
+    function handleSubmit(e){
         e.preventDefault()
         register(user)
     }
@@ -23,7 +23,7 @@ function Register(){
     return(
         <section className={styles.form_container}>
             <h1>Register</h1>
-            <form onSubmit={hadleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <Input 
                     text='Nome'
                     type='text'
