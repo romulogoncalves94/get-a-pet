@@ -5,6 +5,8 @@ import Login from './components/pages/Auth/Login'
 import Register from './components/pages/Auth/Register'
 import Home from './components/pages/Home'
 import Profile from './components/pages/User/Profile'
+import AddPet from './components/pages/Pets/AddPet'
+import MyPets from './components/pages/Pets/MyPets'
 
 /* Components */
 import Navbar from './components/layout/Navbar'
@@ -15,7 +17,6 @@ import Message from './components/layout/Message'
 
 /* Context */
 import { UserProvider } from './context/UserContext'
-import MyPets from './components/pages/Pets/MyPets'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/register' element={<Register />}/>
           <Route path='/user/profile' element={<Profile />}/>
           <Route path='/pet/mypets' element={<MyPets />}/>
+          <Route path='/pet/add' element={<AddPet />}/>
           <Route path='/' element={<Home />}/>
         </Routes>
         </Container>
