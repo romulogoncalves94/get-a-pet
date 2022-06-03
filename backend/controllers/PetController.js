@@ -219,10 +219,7 @@ module.exports = class PetController{
             updatedData.color = color
         }
 
-        if(images.length === 0){
-            res.status(422).json({ message: 'O campo imagens é obrigatório!' })
-            return
-        } else{
+        if(images.length > 0){
             updatedData.images = []
             images.map((image) => {
                 updatedData.images.push(image.filename)
@@ -301,6 +298,6 @@ module.exports = class PetController{
 
         await Pet.findByIdAndUpdate(id, pet)
 
-        res.status(200),json({ message: 'Parabéns! O ciclo de adoção foi finalizado com sucesso!'})
+        res.status(200).json({ message: 'Parabéns! O ciclo de adoção foi finalizado com sucesso!'})
     }
 }
